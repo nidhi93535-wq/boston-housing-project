@@ -10,15 +10,15 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 
 def main():
-    # 1. Load your data (change the filename if needed!)
+    #  Load your data (change the filename if needed!)
     df = pd.read_csv('HousingData.csv')  # or 'Boston.csv', etc.
 
-    # 2. Handle missing data (drop or fill)
+    #  Handle missing data (drop or fill)
     if df.isnull().values.any():
         print('\nMissing values found. Filling with column means...')
         df = df.fillna(df.mean())
 
-    # 3. Inspect data
+    #  Inspect data
     print("\nFirst five rows:")
     print(df.head())
     print("\nData info:")
@@ -26,7 +26,7 @@ def main():
     print("\nSummary statistics:")
     print(df.describe())
 
-    # 4. Visualizations
+    #  Visualizations
     plt.figure(figsize=(8,5))
     sns.histplot(df['MEDV'], bins=30, kde=True)
     plt.title('Distribution of Median House Prices')
@@ -48,21 +48,21 @@ def main():
     plt.title('Feature Correlation Heatmap')
     plt.tight_layout(); plt.show()
 
-    # 5. Prepare features and target
+    #  Prepare features and target
     X = df.drop('MEDV', axis=1)
     y = df['MEDV']
 
-    # 6. Train-Test Split
+    #  Train-Test Split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     print('Train shape:', X_train.shape, y_train.shape)
     print('Test shape:', X_test.shape, y_test.shape)
 
-    # 7. Feature Scaling
+    #  Feature Scaling
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    # 8. Train & Evaluate Multiple Models
+    #  Train & Evaluate Multiple Models
     models = {
         "Linear Regression": LinearRegression(),
         "Decision Tree": DecisionTreeRegressor(random_state=42),
@@ -77,7 +77,7 @@ def main():
         print(f"  Mean Squared Error: {mse:.2f}")
         print(f"  R2 Score: {r2:.3f}")
 
-    # 9. Fine-Tune Decision Tree with GridSearchCV (small grid, fast CV)
+    #  Fine-Tune Decision Tree with GridSearchCV (small grid, fast CV)
     print('\nStarting fine-tuning with GridSearchCV for Decision Tree...')
     param_grid = {
         'max_depth': [3, 5],
@@ -92,7 +92,7 @@ def main():
     print("  Mean Squared Error: {:.2f}".format(mean_squared_error(y_test, y_pred_grid)))
     print("  R2 Score: {:.3f}".format(r2_score(y_test, y_pred_grid)))
 
-    # 10. Visualize Actual vs. Predicted for Fine-tuned Decision Tree
+    #  Visualize Actual vs. Predicted for Fine-tuned Decision Tree
     plt.figure(figsize=(8,5))
     plt.scatter(y_test, y_pred_grid, alpha=0.7)
     plt.xlabel('Actual MEDV ($1000s)')
